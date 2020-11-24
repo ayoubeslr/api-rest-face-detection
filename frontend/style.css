@@ -1,0 +1,21 @@
+.title {
+    font-size: 3em;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    padding: 25px;
+}
+
+.bar {
+    background-color: red;
+}
+
+div {
+    text-align: center;
+}
+
+body {
+    text-align: center;
+}
+.btn {
+    text-align: center;
+}
