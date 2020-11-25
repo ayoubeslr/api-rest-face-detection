@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilan</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>id</td>
+        <td>Date de début</td>
+        <td>Date de fin</td>
+        <td>% droit</td>
+        <td>% avachi</td>
+    </tr>
+
+    <script type="text/javascript">
+        var arr = [[1, '25/11/2020 : 16:51', '25/11/2020 : 16:53', 75, 25], [2, '25/11/2020 : 16:55', '25/11/2020 : 17:00', 38, 62]];
+        for (var arrayIndex in arr) {
+            document.body.innerHTML += "<tr> <td>" +arr[arrayIndex][0] +"</td> | <td>" +arr[arrayIndex][1] +"</td> | <td>" +arr[arrayIndex][2] +"</td> | <td>" +arr[arrayIndex][3]+"%</td> | <td>" +arr[arrayIndex][4]+"%</td>  </tr> <br>"
+
+        }
+    </script>
+
+
+
+</table>
+
+</body>
+</html>
