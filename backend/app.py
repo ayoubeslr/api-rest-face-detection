@@ -1,16 +1,43 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+
+
+
 
 app = Flask(__name__)
 CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-value = []
+db = SQLAlchemy(app)
+
+class Position(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    good_position = db.Column(db.Text, unique=True, nullable=False)
+    bad_position = db.Column(db.Text, unique=True, nullable=False)
+
+
+db.create_all()
+
+@app.route('/get_all',  methods=['GET'])
+def get_all():
+    positions = Position.query.all()
+    return {'status' : 'ok', 'data' : positions}
 
 @app.route('/',  methods=['GET', 'POST'])
 def index():
-    print('reqyest')
+    data = request.json
+    print(data)
+    print(data['value'])
+    print(data['value'][0])
 
-    return {"" : ""}
+
+    position = Position(good_position=data['value'][0], bad_position=data['value'][1])
+    db.session.add(position)
+    db.session.commit()
+
+    return {"status" : "ok"}
 
 
 
