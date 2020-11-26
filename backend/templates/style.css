@@ -69,3 +69,34 @@ li a:hover {
 .title-ent {
     margin-right: 450px;
 }
+
+th {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+}
+
+tr {
+    padding : 150px
+}
+
+.s {
+    padding : 15px;
+      background-color: rgb(54, 54, 54);
+
+    color: white;
+}
+
+.data {
+    padding : 55px;
+    background-color: #fcfcfc;
+    /* border: 1px solid #333; */
+}
+
+.badge {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

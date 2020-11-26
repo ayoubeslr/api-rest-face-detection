@@ -24,8 +24,8 @@ def get_all():
     res = []
     for i in positions:
         res.append({
-            "Bonne position" : i.good_position,
-            "Mauvaise position" : i.bad_position
+            "good_position" : i.good_position,
+            "bad_position" : i.bad_position
         })
     print(res)
     return {'status' : 'ok', 'data' : res}
