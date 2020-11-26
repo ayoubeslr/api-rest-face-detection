@@ -29,7 +29,7 @@ def get_all():
         res.append({
             "good_position" : i.good_position,
             "bad_position" : i.bad_position,
-            "date" : i.date
+            "date" : i.date.strftime('%Y-%m-%d')
         })
     print(res)
     return {'status' : 'ok', 'data' : res}
