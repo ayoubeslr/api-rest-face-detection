@@ -1,11 +1,28 @@
 <html>
+
     <head>
-        <!-- <link rel="stylesheet" href="style.css"> -->
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <nav>
+            <ul>
+                <li class="title-ent">
+                    <a href="#"><b>MOLP Internship</b></a>
+                </li>
+                <li>
+                    <a href="">Video surveillance</a>
+                </li>
+                <li>
+                    <a href="">Statistique</a>
+                </li>
+            </ul>
+        </nav>
         <div class="title">Detecteur de posture</div>
-        <button type="button" class="btn" onclick="init()">Start</button>
-        <button type="button" class="btn" onclick="fermer()">Close</button>
+        <div class="group-btn">
+
+            <button type="button" class="btn" onclick="init()">Start</button>
+            <button type="button" class="btn" onclick="fermer()">Close</button>
+        </div>
 
         <div><canvas id="canvas"></canvas></div>
         <div id="label-container"></div>
@@ -21,13 +38,14 @@
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
     // const axios = require('axios').default;
     // the link to yur model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/zxKfU50Sn/";
+    const URL = "https://teachablemachine.withgoogle.com/models/-i72ufe2F/";
     let model, webcam, ctx, labelContainer, maxPredictions,ctr;
     let closePredict = true;
     let tab = [];
     let tab2 = [];
     
     async function init() {
+        closePredict = true;
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
@@ -49,22 +67,20 @@
         // append/get elements to the DOM
         const canvas = document.getElementById("canvas");
         canvas.width = size; canvas.height = size;
+
         ctx = canvas.getContext("2d");
         labelContainer = document.getElementById("label-container");
+
         for (let i = 0; i < maxPredictions; i++) { 
             labelContainer.appendChild(document.createElement("div"));
-            labelContainer.classList.add('bar');
             tab2[i]=0;
         }
     }
     
     function fermer() {
-      // console.log('je suis le bouton')
       closePredict=false;
       webcam.stop();
       sendData()
-      // document.getElementById('canvas').display = none;
-      // ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     async function loop(timestamp) {

@@ -1,0 +1,71 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Gill Sans", sans-serif;
+    background-color: #eeeeee;
+
+}
+.title {
+    font-size: 3em;
+    font-family: "Gill Sans", sans-serif;
+    text-align: center;
+    padding: 25px;
+}
+
+.bar {
+    background-color: red;
+}
+
+div {
+    text-align: center;
+}
+
+body {
+    text-align: center;
+}
+.btn {
+	font:bold 13px Arial;
+	background:#f5f5f5;
+	color:#555;
+	border-radius:2px;
+	width:100px;
+	border:1px solid #ccc;
+	box-shadow:1px 1px 3px #999;
+    padding: 4px;
+}
+.group-btn{
+    margin: 15px 0 30px 0;
+}
+.btn:hover {
+    
+    border: 2px solid rgb(53, 53, 53); ;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+.title-ent {
+    margin-right: 450px;
+}
