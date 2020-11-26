@@ -1,0 +1,39 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body onload="getData()">
+        <nav>
+            <ul>
+                <li class="title-ent">
+                    <a href="index.html"><b>MOLP Internship</b></a>
+                </li>
+                <li>
+                    <a href="index.html">Video surveillance</a>
+                </li>
+                <li>
+                    <a href="rapport.html">Rapport</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="title">Rapport postures utilisateurs</div>
+    </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+let data = [];
+
+async function getData() {
+        axios.get('http://127.0.0.1:5000/get_all')
+          .then(function (response) {
+            console.log(response);
+			data = response.data.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+}
+</script>
