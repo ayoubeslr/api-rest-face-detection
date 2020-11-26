@@ -1,8 +1,6 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, jsonify 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-
-
 
 
 app = Flask(__name__)
@@ -23,7 +21,14 @@ db.create_all()
 @app.route('/get_all',  methods=['GET'])
 def get_all():
     positions = Position.query.all()
-    return {'status' : 'ok', 'data' : positions}
+    res = []
+    for i in positions:
+        res.append({
+            "Bonne position" : i.good_position,
+            "Mauvaise position" : i.bad_position
+        })
+    print(res)
+    return {'status' : 'ok', 'data' : res}
 
 @app.route('/',  methods=['GET', 'POST'])
 def index():
