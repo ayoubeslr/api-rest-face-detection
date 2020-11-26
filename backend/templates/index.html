@@ -40,11 +40,17 @@
     // the link to yur model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/5zaRbhoJy/";
     let model, webcam, ctx, labelContainer, maxPredictions,ctr;
-    let closePredict = true;
+    let closePredict = false;
     let tab = [];
     let tab2 = [];
-    
+    let timer = 0
     async function init() {
+        if(closePredict) {
+
+        setTimeout(()=> {
+            timer = timer + 1
+        }, 1000);
+        }
         closePredict = true;
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
@@ -77,10 +83,15 @@
         }
     }
     
-    function fermer() {
+    async function fermer() {
+        if(closePredict) {
+
       closePredict=false;
       webcam.stop();
-      sendData()
+      console.log(timer)
+      await sendData()
+      location.reload()
+        }
     }
 
     async function loop(timestamp) {
@@ -96,6 +107,8 @@
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
 
         const prediction = await model.predict(posenetOutput);
+        
+        progressbar = document.getElementById("label-container");
       
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction =
@@ -130,7 +143,7 @@
             tab2[i]= tab2[i]/ctr;
 
         }
-        axios.post('http://127.0.0.1:5000/', {
+        await axios.post('http://127.0.0.1:5000/', {
             value: tab2,
           })
           .then(function (response) {

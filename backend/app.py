@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response, request, jsonify 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+import datetime
 
 
 app = Flask(__name__)
@@ -12,8 +13,10 @@ db = SQLAlchemy(app)
 
 class Position(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    good_position = db.Column(db.Text, unique=True, nullable=False)
-    bad_position = db.Column(db.Text, unique=True, nullable=False)
+    good_position = db.Column(db.Text, nullable=False)
+    bad_position = db.Column(db.Text, nullable=False)
+    date = db.Column(db.Date, default=datetime.datetime.now())
+
 
 
 db.create_all()
@@ -25,7 +28,8 @@ def get_all():
     for i in positions:
         res.append({
             "good_position" : i.good_position,
-            "bad_position" : i.bad_position
+            "bad_position" : i.bad_position,
+            "date" : i.date
         })
     print(res)
     return {'status' : 'ok', 'data' : res}
