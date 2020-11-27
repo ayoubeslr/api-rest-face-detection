@@ -1,7 +1,7 @@
 from flask import Flask, render_template, Response, request, jsonify 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ class Position(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     good_position = db.Column(db.Text, nullable=False)
     bad_position = db.Column(db.Text, nullable=False)
-    date = db.Column(db.Date, default=datetime.datetime.now())
+    date = db.Column(db.DateTime, default=datetime.now())
 
 
 
@@ -26,14 +26,24 @@ def get_all():
     positions = Position.query.all()
     res = []
     for i in positions:
+        print(i)
         res.append({
-            "good_position" : i.good_position,
-            "bad_position" : i.bad_position,
-            "date" : i.date.strftime('%Y-%m-%d')
+            "good_position" : str(round(float(i.good_position), 2) * 100),
+            "bad_position" : str(round(float(i.bad_position), 2) * 100),
+            "date" : i.date.strftime("%b %d %Y %H:%M:%S")
         })
     print(res)
     return {'status' : 'ok', 'data' : res}
 
+
+@app.route('/delete', methods=['DELETE'])
+def delete_all():
+    positions = Position.query.delete()
+    db.session.commit()
+    return {
+        "status" : "ok",
+        "data" : []
+    }
 @app.route('/',  methods=['GET', 'POST'])
 def index():
     data = request.json

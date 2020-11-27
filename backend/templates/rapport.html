@@ -6,58 +6,56 @@
     <body onload="getData()">
         <nav>
             <ul>
-                <li class="title-ent">
-                    <a href="index.html"><b>MOLP Internship</b></a>
-                </li>
-                <li>
+                <li class="text">
                     <a href="index.html">Video surveillance</a>
                 </li>
-                <li>
+                <li class="title-ent">
+                    <a href="index.html"><b>Post'mouv</b></a>
+                </li>
+                <li class="text">
                     <a href="rapport.html">Rapport</a>
                 </li>
             </ul>
         </nav>
-        <div class="title">Rapport postures utilisateurs</div>
+        <div class="title">Rapport postures utilisateurs
+
+        </div>
+        <!-- <a href="graph.html">Graphique</a> -->
+        <button class="btn" onclick="onCLickBtnGraph()">Graphique</button>
+        <button class="btn" onclick="onClickDeleteAll()">Effacer les données</button>
         <div id="key">
 
         </div>
     </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
 
 let data = [];
-// var ctx = document.getElementById('myChart').getContext('2d');
-// var myChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//         labels: ['Red', 'Blue'],
-//         datasets: [{
-//             label: '# of Votes',
-//             data: [12, 19, 3, 5, 2, 3],
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.2)',
-//                 'rgba(54, 162, 235, 0.2)',
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//             ],
-//             borderWidth: 1
-//         }]
-//     },
-//     options: {
-//         scales: {
-//             yAxes: [{
-//                 ticks: {
-//                     beginAtZero: true
-//                 }
-//             }]
-//         }
-//     }
-// });
+
+function onCLickBtnGraph() {
+    return window.location.href='graph.html'
+}
+
+async function onClickDeleteAll() {
+    await axios.delete('http://127.0.0.1:5000/delete')
+    .then(function (res) {
+        if(res.data.status == 'ok') {
+ Swal.fire({
+  position: 'center',
+  icon: 'success',
+  title: 'Rapports supprimés',
+  showConfirmButton: false,
+  timer: 1500
+})
+
+        }
+    })
+location.reload()
+}
 async function getData() {
         axios.get('http://127.0.0.1:5000/get_all')
           .then(function (response) {
@@ -86,8 +84,8 @@ async function getData() {
                         '<tr>' +
                             '<td  class="data">' + 1 +'</td>'+
 
-                            '<td  class="data">' + key.good_position +'</td>'+
-                            '<td class="data">' + key.bad_position +'</td>'+
+                            '<td  class="data">' + key.good_position + '%' +'</td>'+
+                            '<td class="data">' + key.bad_position + '%' + '</td>'+
                             '<td class="data">' + key.date +'</td>'+
 
                         '<tr>' +

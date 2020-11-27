@@ -1,0 +1,104 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body onload="getData()">
+        <nav>
+            <ul>
+                <li class="text">
+                    <a href="index.html">Video surveillance</a>
+                </li>
+                <li class="title-ent">
+                    <a href="index.html"><b>Post'mouv</b></a>
+                </li>
+                <li class="text">
+                    <a href="rapport.html">Rapport</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="title">Rapport postures utilisateurs</div>
+        <div class="superChartDiv">
+        <div id="myChartDiv">
+            <!-- <canvas id="myChart" width="50px" height="50px"></canvas> -->
+        </div>
+
+        </div>
+        <!-- <table id="test">
+</table> -->
+    </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+let data = [];
+let datasets1 = []
+let cont = 0
+
+function newChart(data, hours){
+    document.getElementById('myChartDiv').insertAdjacentHTML("afterbegin","<div class='canvas-div'><canvas id='canvas"+cont+"'></canvas> <div>" + hours + "</div> </div>");
+    var can_id="canvas"+cont;
+    var ctx2 = document.getElementById(can_id).getContext('2d');
+    window.can_id = new Chart(ctx2, {
+    type: 'pie',
+    data:  {
+        labels: ['Mauvaise posture', 'Bonne posture'],
+        datasets:  [{
+            label: '# of Votes',
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    }
+    // options: options
+});;
+
+    window.can_id.update();
+    cont = cont +1;
+}
+
+async function getData() {
+        axios.get('http://127.0.0.1:5000/get_all')
+          .then(function (response) {
+            console.log(response);
+			data = response.data.data;
+            
+            
+            for (var key of data) {
+                res = []
+                res.push(key.bad_position)
+                res.push(key.good_position)
+                console.log(res, 'difjdf')
+                newChart(res, key.date)
+
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+}
+
+//  [{
+//             label: '# of Votes',
+//             data: [12, 19],
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//             ],
+//             borderWidth: 1
+//         }]
+</script>
+

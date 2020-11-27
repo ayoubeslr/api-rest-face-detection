@@ -67,18 +67,24 @@ li a:hover {
 }
 
 .title-ent {
-    margin-right: 450px;
+    /* margin-right: 450px; */
 }
 
+.text {
+    float: right;
+}
 th {
     text-align: center;
     padding: 15px;
     background-color: #333;
     color: white;
+    text-align: center;
+
 }
 
 tr {
-    padding : 150px
+    padding : 150px;
+    text-align: center;
 }
 
 .s {
@@ -99,4 +105,22 @@ tr {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.superChartDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+#myChartDiv {
+
+  margin: 15px;
+  display: flex;
+  /* flex-wrap: wrap; */
+}
+
+.canvas-div {
+      width: 400px;
+  height: 400px;
+    display: flex;
+  flex-direction: column;
 }

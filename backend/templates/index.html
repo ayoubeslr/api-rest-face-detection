@@ -2,33 +2,37 @@
 
     <head>
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     </head>
     <body>
         <nav>
             <ul>
-            <li class="title-ent">
-                    <a href="index.html"><b>MOLP Internship</b></a>
-                </li>
-                <li>
+                <li class="text">
                     <a href="index.html">Video surveillance</a>
                 </li>
-                <li>
+            <li class="title-ent">
+                    <a href="index.html"><b>Post'mouv</b></a>
+                </li>
+                <li class="text">
                     <a href="rapport.html">Rapport</a>
                 </li>
             </ul>
         </nav>
-        <div class="title">Detecteur de posture</div>
+        <div class="title">Détecteur de posture</div>
         <div class="group-btn">
 
             <button type="button" class="btn" onclick="init()">Start</button>
-            <button type="button" class="btn" onclick="fermer()">Close</button>
+            <button type="button" class="btn" onclick="fermer()">Stop</button>
         </div>
 
         <div><canvas id="canvas"></canvas></div>
         <div id="label-container"></div>
 
+        <!-- <button onclick="test()"></button> -->
+
     </body>
 </html>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
@@ -38,7 +42,7 @@
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
     // const axios = require('axios').default;
     // the link to yur model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/5zaRbhoJy/";
+    const URL = "https://teachablemachine.withgoogle.com/models/tcmCVHrYA/";
     let model, webcam, ctx, labelContainer, maxPredictions,ctr;
     let closePredict = false;
     let tab = [];
@@ -82,6 +86,15 @@
             tab2[i]=0;
         }
     }
+
+
+//     function test() {
+//             Toastify({
+//   text: "Attention mauvaise posture ! &#9995;",
+//   backgroundColor: "red",
+//   className: "info",
+// }).showToast();
+//     }
     
     async function fermer() {
         if(closePredict) {
@@ -109,6 +122,7 @@
         const prediction = await model.predict(posenetOutput);
         
         progressbar = document.getElementById("label-container");
+        
       
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction =
@@ -122,10 +136,29 @@
 
     
         drawPose(pose);
-        
+
+
         }
         
     }
+
+setInterval(()=>{
+    if(closePredict) {
+        console.log('1-----')
+
+        let lim = tab2[1]/ctr
+        console.log(lim)
+
+    if( lim > 0.70) {
+        console.log('2------')
+            Toastify({
+  text: "Attention mauvaise posture ! &#9995;",
+  backgroundColor: "red",
+  className: "info",
+}).showToast();
+    }
+    }
+}, 5000)
 
     function drawPose(pose) {
         if (webcam.canvas) {
@@ -137,12 +170,14 @@
                 tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
             }
         }
+
     }
     async function sendData() {
         for (let i = 0; i < maxPredictions; i++) {
             tab2[i]= tab2[i]/ctr;
-
         }
+
+    
         await axios.post('http://127.0.0.1:5000/', {
             value: tab2,
           })
@@ -152,5 +187,50 @@
           .catch(function (error) {
             console.log(error);
           });
+
+          if(tab2[0] > 50 ) {
+ 
+          }else {
+
+          }
     }
+
+    // ,NOTIFUICATION 66666666666666666666666
+    function notifyMe() {
+        chrome.notifications()
+  // Vérifions si le navigateur prend en charge les notifications
+//   if (!('Notification' in window)) {
+//     alert('Ce navigateur ne prend pas en charge la notification de bureau')
+//   }
+
+
+//   // Vérifions si les autorisations de notification ont déjà été accordées
+//   else if (Notification.permission === 'granted') {
+//       console.log('nofgi')
+//       Notification.requestPermission().then(function (permission) {
+//             console.log(permission)
+// });
+//     // Si tout va bien, créons une notification
+//     const notification = new Notification('Salut toi!')
+//   }
+
+//   // Sinon, nous devons demander la permission à l'utilisateur
+//   else if (Notification.permission !== 'denied') {
+//     Notification.requestPermission().then((permission) => {
+//       // Si l'utilisateur accepte, créons une notification
+//       if (permission === 'granted') {
+// //                 Notification.requestPermission().then(function (permission) {
+// //             console.log(permission)
+// // });
+//         const notification = new Notification('Salut toi!')
+//       }
+//     })
+//   }else {
+//       console.log('error')
+//   }
+
+
+  // Enfin, si l'utilisateur a refusé les notifications, et que vous
+  // voulez être respectueux, il n'est plus nécessaire de les déranger.
+}
 </script>
